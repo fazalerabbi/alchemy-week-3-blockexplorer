@@ -10,8 +10,8 @@ const IndexPage = () => {
                 <section class="container-xxl pb-20">
                     <EthMarketSummary />
                     <div class="row gx-4">
-                    <Blocks />
-                    <Transactions />
+                        <Blocks />
+                        <Transactions />
                     </div>
                 </section>
             </Container>
