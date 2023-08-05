@@ -33,6 +33,42 @@ const useAlchemy = () => {
     return transactions.slice(0, numberOfTransactions);
   };
 
+  const getAllBlocks = async (numberOfBlocks = 5) => {
+    let blocks = [];
+    let latestBlockNumberOrHash = await alchemy.core.getBlockNumber();
+
+    for (let i = 0; i < numberOfBlocks; i++) {
+      const block = await alchemy.core.getBlock(latestBlockNumberOrHash);
+      const date = new Date(block.timestamp * 1000);
+      blocks.push({
+        ...block,
+        baseFeePerGas: Utils.formatUnits(
+          block.baseFeePerGas.toNumber(),
+          "gwei"
+        ),
+        timestamp:
+          (date.getDate() <= 9 ? "0" + date.getDate() : date.getDate()) +
+          "-" +
+          (date.getMonth() + 1 <= 9
+            ? "0" + (date.getMonth() + 1)
+            : date.getMonth() + 1) +
+          "-" +
+          date.getFullYear() +
+          " " +
+          date.getHours() +
+          ":" +
+          date.getMinutes() +
+          ":" +
+          date.getSeconds(),
+        gasLimit: Utils.formatUnits(block.gasLimit.toNumber(), "gwei"),
+        gasUsed: Utils.formatUnits(block.gasUsed.toNumber(), "gwei"),
+      });
+      latestBlockNumberOrHash = block.parentHash;
+    }
+
+    return blocks;
+  };
+
   const getAllTransactions = async (numberOfTransactions = 100) => {
     let latestBlockNumberOrHash = await alchemy.core.getBlockNumber();
     let transactions = (
@@ -42,19 +78,12 @@ const useAlchemy = () => {
     return transactions.slice(0, numberOfTransactions);
   };
 
-  const getEthMetaData = async () => {
-    const ethMetaData = await alchemy.core.getTokenMetadata(
-      "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
-    );
-    console.log(ethMetaData);
-    return ethMetaData;
-  };
-
   return {
     getCurrentGasFee,
     getLatestBlocks,
     getLatestTransactions,
     getAllTransactions,
+    getAllBlocks,
   };
 };
 

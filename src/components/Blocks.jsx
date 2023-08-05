@@ -38,7 +38,6 @@ const Blocks = () => {
                                                 <div className="d-flex flex-row flex-sm-column align-items-center align-items-sm-start gap-1 gap-sm-0">
                                                     <span className="d-inline-block d-sm-none">Block</span>
                                                     <Link className="text-truncate" style={{maxWidth: "6rem"}} to={`/blocks/${block.number}`}>{block.number}</Link>
-                                                    <div className="small text-muted"> 11 secs ago</div>
                                                 </div>
                                             </div>
                                         </div>
