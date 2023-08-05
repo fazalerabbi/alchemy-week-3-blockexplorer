@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Footer from "./Footer";
 import HeaderMenu from "./HeaderMenu";
 import Search from "./Search";
